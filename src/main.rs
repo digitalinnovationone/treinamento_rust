@@ -1,56 +1,60 @@
-#[derive(Debug)]
-struct Cliente {
-    id: u32,
+////////////////// Enum /////////////////////
+// enum Tipo {
+//     Juridica,
+//     Fisica,
+// }
+
+// struct Pessoa {
+//     nome: String,
+//     documento: String,
+//     tipo: Tipo,
+// }
+
+// fn main() {
+//     let daniel = Pessoa {
+//         nome: String::from("Daniel"),
+//         documento: String::from("99.999.999/9999-99"),
+//         tipo: Tipo::Juridica,
+//     };
+
+//     // Pattern Matching
+//     match daniel.tipo {
+//         Tipo::Fisica => {
+//             println!("{} é uma pessoa física", daniel.nome)
+//         },
+//         _ => {
+//             println!("{} é uma pessoa jurídica", daniel.nome)
+//         },
+//     }
+// }
+
+
+
+
+#[derive(PartialEq)]
+enum Tipo {
+    Juridica,
+    Fisica,
+}
+
+struct Pessoa {
     nome: String,
-    cpf: String,
-    salario: f32
+    documento: String,
+    tipo: Tipo,
 }
 
-impl Cliente {
-    fn cpf_valido(&self) -> bool {
-        if self.cpf.is_empty() {
-            return false;
-        }
-
-        true
-    }
-
-    fn adiciona_sobrenome(&mut self){
-        self.nome += " da Silva";
-    }
-
-    fn aumento(&mut self, valor:f32){
-        self.salario += valor;
-    }
-
-    fn aumento2(&self, valor:f32) -> f32{
-        self.salario + valor
-    }
-}
 
 fn main() {
-    let mut cliente = Cliente { 
-        id: 1,
-        nome: String::from("Leadro"),
-        cpf: String::from("222.555.553-00"),
-        salario: 5000.0
+    let daniel = Pessoa {
+        nome: String::from("Daniel"),
+        documento: String::from("23323.3322332.323.332"),
+        tipo: Tipo::Fisica,
     };
 
-    cliente.adiciona_sobrenome();
-
-    cliente.aumento(1000.0);
-
-    let valido = if cliente.cpf_valido()  {
-        "Verdadeiro"
+    if daniel.tipo == Tipo::Fisica {
+        println!("{} é uma pessoa física", daniel.nome);
     } else {
-        "Falso"
-    };
-
-    println!(
-        "O CPF do cliente({}):  {} é {} \n{:#?}",
-        cliente.id,
-        cliente.nome,
-        valido,
-        cliente
-    );
+        println!("{} é uma pessoa jurídica", daniel.nome);
+    }
 }
+

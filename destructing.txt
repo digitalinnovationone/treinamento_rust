@@ -1,0 +1,68 @@
+// Exemplo de Destructuring (Desestruturação)
+
+struct Pessoa {
+    nome: String,
+    idade: u8,
+}
+
+fn main() {
+    let pessoa = Pessoa {
+        nome: String::from("João"),
+        idade: 30,
+    };
+
+    // Desestruturação de uma struct
+    let Pessoa { nome, idade } = pessoa;
+
+    println!("Nome: {}, Idade: {}", nome, idade);
+}
+
+
+// fn main() {
+//     let arr = [1, 2, 3, 4, 5];
+
+//     // Desestruturação de um array
+//     let [primeiro, segundo, ..] = arr;
+
+//     println!("Primeiro: {}, Segundo: {}", primeiro, segundo);
+// }
+
+
+// fn main() {
+//     let tupla = ("Rust", 2021);
+
+//     // Desestruturação de uma tupla
+//     let (linguagem, ano) = tupla;
+
+//     println!("Linguagem: {}, Ano: {}", linguagem, ano);
+// }
+
+
+// enum Mensagem {
+//     Enviar { id: u32, texto: String },
+// }
+
+// fn main() {
+//     let msg = Mensagem::Enviar { id: 1, texto: String::from("Olá, Rust!") };
+
+//     match msg {
+//         Mensagem::Enviar { id, texto } => {
+//             println!("ID: {}, Texto: {}", id, texto);
+//         }
+//     }
+// }
+
+
+// struct Ponto {
+//     x: i32,
+//     y: i32,
+// }
+
+// fn main() {
+//     let ponto = Ponto { x: 10, y: 20 };
+
+//     // Desestruturação de uma struct
+//     let Ponto { x, y } = ponto;
+
+//     println!("x: {}, y: {}", x, y);
+// }
