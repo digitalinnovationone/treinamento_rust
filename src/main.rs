@@ -1,121 +1,207 @@
-// Exemplo de Destructuring (Desestruturação)
 
-// struct Pessoa {
-//     nome: String,
-//     idade: u8,
-// }
+////////////////// Hash Map /////////////////////
+// use std::collections::HashMap;
 
-// fn main() {
-//     let pessoa = Pessoa {
-//         nome: String::from("João"),
-//         idade: 30,
-//     };
+// // struct Metragem{
+// //     largura: i32,
+// //     altura: i32
+// // }
 
-//     // Desestruturação de uma struct
-//     let Pessoa { nome, idade } = pessoa;
+// fn main(){
 
-//     println!("Nome: {}, Idade: {}", nome, idade);
-// }
+//     // let m = Metragem{
+//     //     largura: 1,
+//     //     altura: 4,
+//     //     xxx: 2
+//     // };
 
+//     let mut dados = HashMap::new();
 
-// fn main() {
-//     let arr = [1, 2, 3, 4, 5];
-
-//     // Desestruturação de um array
-//     let [primeiro, segundo, ..] = arr;
-
-//     println!("Primeiro: {}, Segundo: {}", primeiro, segundo);
-// }
+//     dados.insert(String::from("Largura"), 10);
+//     dados.insert(String::from("Altura"), 50);
+//     dados.insert(String::from("ssssss"), 50);
 
 
-// fn main() {
-//     let tupla: (&str, i32, f32) = ("João", 2021, 5.6);
+//     let valor = dados.get(&String::from("Largura"));
 
-
-//     // Desestruturação de uma tupla
-//     let (linguagem, ano, ..) = tupla;
-
-//     let charsss = linguagem.chars();
-//     let quantidade = charsss.count();
-
-
-//     println!("Linguagem: {}, Ano: {}", linguagem, ano);
-// }
-
-
-// enum Mensagem {
-//     Enviar { id: u32, texto: String },
-// }
-
-// fn main() {
-//     let msg = Mensagem::Enviar { id: 1, texto: String::from("Olá, Rust!") };
-
-//     match msg {
-//         Mensagem::Enviar { id, texto } => {
-//             println!("ID: {}, Texto: {}", id, texto);
-//         }
+//     if let Some(valor) = valor {
+//         println!("{}", valor);
+//     } else {
+//         println!("Chave não encontrada");
 //     }
 // }
 
 
-// struct Ponto {
-//     x: i32,
-//     y: i32,
+
+// use std::collections::HashMap;
+// fn main(){
+
+//     let mut dados: HashMap<&str, i32> = HashMap::new();
+
+//     dados.insert("Largura", 10);
+//     dados.insert("Altura", 50);
+
+
+//     let valor = dados.get("Largura");
+
+//     if let Some(valor) = valor {
+//         println!("{}", valor);
+//     } else {
+//         println!("Chave não encontrada");
+//     }
 // }
+
+
+// use std::collections::HashMap;
+// fn main(){
+
+//     let mut dados: HashMap<&str, i32> = HashMap::new();
+
+//     dados.insert("Largura", 10);
+//     dados.insert("Altura", 50);
+
+
+//     let valor = dados.get("Largura");
+
+//     if let Some(valor) = valor {
+//         println!("{}", valor);
+//     } else {
+//         println!("Chave não encontrada");
+//     }
+
+//     for (key, value) in &dados {
+//         println!("{}: {}", key, value);
+//     }
+// }
+
+
+// use std::collections::HashMap;
+// fn main(){
+
+//     let mut dados: HashMap<&str, i32> = HashMap::new();
+
+//     dados.insert("Largura", 10);
+//     dados.insert("Altura", 50);
+
+//     dados.entry("Media").or_insert(30);
+//     let media = dados.entry("Media").or_insert(25);
+//     println!("{}", media);
+
+//     println!("{:?}", dados);
+// }
+
+
+// use std::collections::HashMap;
 
 // fn main() {
-//     let ponto = Ponto { x: 10, y: 20 };
+//     // Criando o HashMap com valores na construção (com array de tuplas)
+//     let dados: HashMap<&str, i32> = [
+//         ("Largura", 10),
+//         ("Altura", 50),
+//     ].iter().cloned().collect();
 
-//     // Desestruturação de uma struct
-//     let Ponto { x, y } = ponto;
-
-//     println!("x: {}, y: {}", x, y);
+//     println!("HashMap completo: {:?}", dados);
 // }
 
 
+// use std::collections::HashMap;
+
+// fn main() {
+//     // Inicializando o HashMap diretamente com um array de tuplas
+//     let dados = HashMap::from([
+//         ("Largura", 10),
+//         ("Altura", 50),
+//     ]);
+
+//     println!("HashMap completo: {:?}", dados);
+// }
+
+
+// use std::collections::HashMap;
 
 // struct Pessoa {
 //     nome: String,
-//     sobrenome: String,
-//     idade: u8,
+//     idade: u32,
+//     cidade: String,
 // }
 
 // fn main() {
 //     let pessoa = Pessoa {
-//         nome: String::from("João"),
-//         sobrenome: "Teste".to_string(),
+//         nome: "João".to_string(),
 //         idade: 30,
+//         cidade: "São Paulo".to_string(),
 //     };
 
-//     // Desestruturação de uma struct
-//     let pessoa2 = Pessoa{ nome: "Silva", ... } = pessoa;
+//     // Usando um array de tuplas e o método collect() para construir o HashMap
+//     let mut propriedades_pessoa: HashMap<String, String> = [
+//         ("nome".to_string(), pessoa.nome),
+//         ("idade".to_string(), pessoa.idade.to_string()),
+//         ("cidade".to_string(), pessoa.cidade),
+//     ]
+//     .iter()
+//     .cloned()
+//     .collect();
 
-//     println!("Pessoa Nova: {}", pessoa2.nome);
+//     propriedades_pessoa.insert("Largura".to_string(), "xxx".to_string());
+
+
+//     println!("{:?}", propriedades_pessoa);
 // }
 
 
-#[derive(Debug)] // Deriva o traço Debug para permitir a impressão de debug
-struct Pessoa {
-    nome: String,
-    sobrenome: String,
-    idade: u8,
-}
+// use std::collections::HashMap;
+
+// // Definição da struct que será armazenada no HashMap
+// struct Dimensao {
+//     largura: u32,
+//     altura: u32,
+// }
+
+// fn main() {
+//     // Criação de um HashMap vazio onde a chave é uma String e o valor é a struct Dimensao
+//     let mut dimensoes = HashMap::new();
+
+//     // Adicionando valores ao HashMap
+//     dimensoes.insert(
+//         String::from("quarto"),
+//         Dimensao {
+//             largura: 5,
+//             altura: 4,
+//         },
+//     );
+
+//     // Adicionando uma nova chave e valor ao HashMap após a inicialização
+//     dimensoes.insert(
+//         String::from("sala"),
+//         Dimensao {
+//             largura: 10,
+//             altura: 8,
+//         },
+//     );
+
+//     // Imprimindo os valores armazenados no HashMap
+//     for (chave, dimensao) in &dimensoes {
+//         println!(
+//             "A {} tem {} metros de largura e {} metros de altura.",
+//             chave, dimensao.largura, dimensao.altura
+//         );
+//     }
+// }
+
+
+
+// [dependencies]
+// maplit = "1.0.2"
+
+#[macro_use] extern crate maplit;
+
+use std::collections::HashMap;
 
 fn main() {
-    let pessoa = Pessoa {
-        nome: String::from("João"),
-        sobrenome: String::from("Teste"),
-        idade: 30,
+    let dados: HashMap<&str, i32> = hashmap! {
+        "Largura" => 10,
+        "Altura" => 50,
     };
 
-    // Desestruturação de uma struct
-    let Pessoa { nome, sobrenome, idade } = &pessoa;
-
-    let pessoa2 = Pessoa {
-        nome: nome.to_owned() + " Silva",
-        sobrenome: sobrenome.to_owned(), // Faz uma cópia do valor
-        idade: *idade, // (desreferenciação) não cria uma cópia do valor; em vez disso, ela apenas fornece acesso ao valor original que a referência aponta.
-    };
-
-    println!("Pessoa Nova: {:#?}", pessoa2);
+    println!("HashMap completo: {:?}", dados);
 }
