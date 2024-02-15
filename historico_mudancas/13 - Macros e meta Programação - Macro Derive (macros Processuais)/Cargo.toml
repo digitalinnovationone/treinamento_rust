@@ -1,0 +1,12 @@
+[package]
+name = "macro"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+macro_derive = { path = "./macro_derive" }
+macro_derive_traits = { path = "./macro_derive_traits" }
+
+
