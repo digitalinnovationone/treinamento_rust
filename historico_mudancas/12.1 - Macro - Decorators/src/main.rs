@@ -78,11 +78,22 @@
 //     }
 // }
 
+// create_struct_and_metadata! {
+//     Pedido {
+//         id: i32, "autoincrement",
+//         cliente_id: i32, "int",
+//         valor_total: f32, "float",
+//     }
+// }
 
 // fn main() {
 //     // Gerando o script SQL para criar a tabela `cliente`
 //     let sql_create_table = Cliente::generate_sql_create_table();
 //     println!("{}", sql_create_table);
+
+
+//     let sql_create_table_pedito = Pedido::generate_sql_create_table();
+//     println!("{}", sql_create_table_pedito);
 // }
 
 
@@ -122,7 +133,7 @@
 
 // // Definindo a struct Cliente com nome de tabela personalizado usando a macro atualizada
 // create_struct_and_metadata! {
-//     "clientes" => Cliente {
+//     "tbl_clientes" => Cliente {
 //         id: i32, "autoincrement",
 //         nome: String, "varchar(100)",
 //         telefone: String, "varchar(15)",
@@ -184,7 +195,7 @@ macro_rules! create_struct_and_metadata {
             }
 
             pub fn generate_sql_select() -> String {
-                format!("SELECT * FROM {} WHERE id = ?;", $table_name)
+                format!("SELECT * FROM {};", $table_name)
             }
         }
     };
