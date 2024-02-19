@@ -45,12 +45,20 @@ utilizadas para definir padrões de código reutilizáveis.
 // #[derive(Debug)]
 // struct MinhaStruct;
 
+// #[derive(Debug)]
+// struct MinhaStruct2;
+
 // // Usando a macro para aplicar a implementação do trait à struct
 // implementa_trait!(MinhaStruct);
+// implementa_trait!(MinhaStruct2);
 
 // fn main() {
 //     let minha_instancia = MinhaStruct;
 //     minha_instancia.metodo_exemplo();
+
+
+//     let minha_instancia2 = MinhaStruct2;
+//     minha_instancia2.metodo_exemplo();
 // }
 
 
@@ -89,7 +97,7 @@ utilizadas para definir padrões de código reutilizáveis.
     
 //     // Criando uma struct com dois campos
 //     cria_structs!(DoisCampos, campo1: u32, campo2: String);
-    
+
 //     // Exemplo de uso
 //     let vazia = Vazia { };
 //     let item = UmCampo { campo1: 10 };
@@ -432,6 +440,10 @@ utilizadas para definir padrões de código reutilizáveis.
 //         format!("ID: {}", self.id)
 //     }
 
+//     fn mostra_cpf(&self) -> String {
+//         format!("CPF: {}", self.cpf)
+//     }
+
 //     fn mais_numero_no_id(&self, numero: u32) -> String {
 //         format!("ID + Numero: {}", self.id + numero)
 //     }
@@ -447,6 +459,7 @@ utilizadas para definir padrões de código reutilizáveis.
 
 //     println!("{}", cliente.mostra_nome());
 //     println!("{}", cliente.mostra_id());
+//     println!("{}", cliente.mostra_cpf());
 //     println!("{}", cliente.mais_numero_no_id( 10 ));
 // }
 
@@ -461,7 +474,7 @@ utilizadas para definir padrões de código reutilizáveis.
 // ///// ========== Usando Cria struct com metodo de uma crate =========
 
 #[macro_use]
-extern crate minha_macro_lib;
+extern crate minha_macro_lib2;
 
 cria_struct_crate_lib! {
     Cliente {
