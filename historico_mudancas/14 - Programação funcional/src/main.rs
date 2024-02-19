@@ -1,28 +1,28 @@
-// struct Pedido {
-//     nome_cliente: String,
-//     valor: f32,
-//     entregue: bool,
-// }
+struct Pedido {
+    nome_cliente: String,
+    valor: f32,
+    entregue: bool,
+}
 
 
-//// === Abordagem Imperativa =======
-// fn main() {
-//     let pedidos = vec![
-//         Pedido { nome_cliente: String::from("Alice"), valor: 150.0, entregue: true },
-//         Pedido { nome_cliente: String::from("Bob"), valor: 250.0, entregue: false },
-//         Pedido { nome_cliente: String::from("Carol"), valor: 100.0, entregue: true },
-//     ];
+// === Abordagem Imperativa =======
+fn main() {
+    let pedidos = vec![
+        Pedido { nome_cliente: String::from("Alice"), valor: 150.0, entregue: true },
+        Pedido { nome_cliente: String::from("Bob"), valor: 250.0, entregue: false },
+        Pedido { nome_cliente: String::from("Carol"), valor: 100.0, entregue: true },
+    ];
 
-//     let mut valor_total = 0.0; // pode ter problemas em concorrencia variavel depenendo da condição
+    let mut valor_total = 0.0; // pode ter problemas em concorrencia variavel depenendo da condição
 
-//     for pedido in pedidos {
-//         if pedido.entregue {
-//             valor_total += pedido.valor;
-//         }
-//     }
+    for pedido in pedidos {
+        if pedido.entregue {
+            valor_total += pedido.valor;
+        }
+    }
 
-//     println!("O valor total dos pedidos entregues é: {:.2}", valor_total);
-// }
+    println!("O valor total dos pedidos entregues é: {:.2}", valor_total);
+}
 
 
 //// === Abordagem funcional =======
