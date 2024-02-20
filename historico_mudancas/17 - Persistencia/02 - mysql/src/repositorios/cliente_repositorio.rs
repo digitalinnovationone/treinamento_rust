@@ -1,7 +1,7 @@
 use mysql::*;
 use mysql::prelude::Queryable;
 use crate::models::cliente::Cliente;
-use crate::repositorios::cnn::obter_conexao;
+use crate::config::cnn::obter_conexao;
 
 pub fn criar_cliente(nome: &str, telefone: &str) -> Result<()> {
     let mut conn = obter_conexao()?;

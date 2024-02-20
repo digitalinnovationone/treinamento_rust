@@ -1,3 +1,4 @@
+mod config;
 mod models;
 mod repositorios;
 mod tela;

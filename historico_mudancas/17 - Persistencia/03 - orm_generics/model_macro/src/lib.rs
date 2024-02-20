@@ -1,3 +1,4 @@
+#[macro_export]
 macro_rules! create_struct_and_metadata {
     ($table_name:expr => $struct_name:ident { $($field_name:ident: $field_type:ty, $metadata:expr),* $(,)? }) => {
         struct $struct_name {
