@@ -9,7 +9,13 @@ mod repositorios;
 use std::io;
 use tela::display;
 
+use crate::repositorios::generico_repositorio;
+use crate::models::cliente::Cliente;
+
 fn main() {
+    generico_repositorio::apagar_tabela::<Cliente>().expect("Falha ao excluir cliente");
+    generico_repositorio::criar_tabela::<Cliente>().expect("Falha ao excluir cliente");
+
     loop {
         println!("CRUD Clientes");
         println!("1. Criar Cliente");

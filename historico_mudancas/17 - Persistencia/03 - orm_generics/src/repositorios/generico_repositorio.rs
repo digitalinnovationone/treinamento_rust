@@ -7,6 +7,20 @@ use mysql::Value;
 use std::collections::HashMap;
 use mysql::{Error as MySQLError};
 
+pub fn criar_tabela<T: Generatable>() -> Result<()> {
+    let mut conn = obter_conexao()?;
+    let sql = T::generate_sql_create_table();
+    conn.exec_drop(&sql, ())?;
+    Ok(())
+}
+
+pub fn apagar_tabela<T: Generatable>() -> Result<()> {
+    let mut conn = obter_conexao()?;
+    let sql = T::generate_sql_drop_table();
+    conn.exec_drop(&sql, ())?;
+    Ok(())
+}
+
 pub fn inserir<T: Generatable>(entidade: &T) -> Result<()> {
     let mut conn = obter_conexao()?;
     let sql = T::generate_sql_insert();
