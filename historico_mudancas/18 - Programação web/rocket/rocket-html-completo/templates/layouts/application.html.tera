@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Sistema{% endblock title %}</title>
+    {% include "partials/_head" %}
+</head>
+<body>
+    {% include "partials/_header" %}
+
+    <div class="container mt-5" style="margin-top:100px!important">
+        {% block content %}{% endblock content %}
+    </div>
+</body>
+</html>

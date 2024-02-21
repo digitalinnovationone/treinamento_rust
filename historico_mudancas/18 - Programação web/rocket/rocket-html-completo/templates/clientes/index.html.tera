@@ -1,0 +1,36 @@
+{% extends "layouts/application" %}
+
+{% block title %}
+    Clientes
+{% endblock title %}
+
+{% block content %}
+    <h2>Clientes</h2>
+    <a href="/clientes/novo" class="btn btn-primary">Novo</a>
+    <hr>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in clientes %}
+            <tr>
+                <td>{{ cliente.id }}</td>
+                <td>{{ cliente.nome }}</td>
+                <td>{{ cliente.cpf }}</td>
+                <td style="width:180px">
+                    <a href="/clientes/{{ cliente.id }}/alterar" class="btn btn-primary">Alterar</a>
+                    <form action="/clientes/{{ cliente.id }}/excluir" onsubmit="return confirm('Confirma?')" method="post" style="display: inline;">
+                        <button type="submit" class="btn btn-danger">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}
