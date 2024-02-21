@@ -16,7 +16,7 @@ pub fn criar_cliente() {
     println!("Telefone do Cliente: ");
     io::stdin().read_line(&mut telefone).expect("Falha ao ler o telefone");
 
-    cliente_servico::criar_cliente(&nome.trim(), &telefone.trim()).expect("Falha ao criar cliente");
+    cliente_servico::criar(&nome.trim(), &telefone.trim()).expect("Falha ao criar cliente");
 
     println!("Cadastro realizado com sucesso");
     pausar_por_segundos(2);
@@ -25,7 +25,7 @@ pub fn criar_cliente() {
 
 pub fn mostrar_clientes() -> Result<(), std::io::Error> {
     limpar_tela();
-    let clientes = cliente_servico::listar_clientes()?; // Correção aqui
+    let clientes = cliente_servico::listar()?; // Correção aqui
     for cliente in &clientes {
         println!("----------------------------------"); // Risco na tela
         println!("ID: {}", cliente.id);
@@ -80,7 +80,7 @@ pub fn atualizar_cliente() -> Result<(), std::io::Error> {
     println!("Novo telefone do Cliente: ");
     io::stdin().read_line(&mut telefone).expect("Falha ao ler o telefone");
 
-    cliente_servico::atualizar_cliente(id, &nome.trim(), &telefone.trim()).expect("Falha ao atualizar cliente");
+    cliente_servico::atualizar(id, &nome.trim(), &telefone.trim()).expect("Falha ao atualizar cliente");
 
     println!("Cliente atualizado com sucesso.");
     pausar_por_segundos(2);
@@ -97,7 +97,7 @@ pub fn excluir_cliente() -> Result<(), std::io::Error> {
     io::stdin().read_line(&mut id).expect("Falha ao ler o ID");
     let id = id.trim().parse::<Uuid>().expect("ID inválido");
 
-    cliente_servico::excluir_cliente(id).expect("Falha ao excluir cliente");
+    cliente_servico::excluir(id).expect("Falha ao excluir cliente");
 
     println!("Cliente excluído com sucesso.");
     pausar_por_segundos(2);

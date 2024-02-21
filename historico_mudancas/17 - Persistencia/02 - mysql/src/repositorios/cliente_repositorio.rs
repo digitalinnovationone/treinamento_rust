@@ -3,7 +3,7 @@ use mysql::prelude::Queryable;
 use crate::models::cliente::Cliente;
 use crate::config::cnn::obter_conexao;
 
-pub fn criar_cliente(nome: &str, telefone: &str) -> Result<()> {
+pub fn criar(nome: &str, telefone: &str) -> Result<()> {
     let mut conn = obter_conexao()?;
 
     conn.exec_drop(
@@ -17,7 +17,7 @@ pub fn criar_cliente(nome: &str, telefone: &str) -> Result<()> {
     Ok(())
 }
 
-pub fn listar_clientes() -> Result<Vec<Cliente>> {
+pub fn listar() -> Result<Vec<Cliente>> {
     let mut conn = obter_conexao()?;
     let clientes = conn.query_map(
         "SELECT id, nome, telefone FROM clientes",
@@ -29,7 +29,7 @@ pub fn listar_clientes() -> Result<Vec<Cliente>> {
     Ok(clientes)
 }
 
-pub fn atualizar_cliente(id: i32, novo_nome: &str, novo_telefone: &str) -> Result<()> {
+pub fn atualizar(id: i32, novo_nome: &str, novo_telefone: &str) -> Result<()> {
     let mut conn = obter_conexao()?;
 
     conn.exec_drop(
@@ -44,7 +44,7 @@ pub fn atualizar_cliente(id: i32, novo_nome: &str, novo_telefone: &str) -> Resul
     Ok(())
 }
 
-pub fn excluir_cliente(id: i32) -> Result<()> {
+pub fn excluir(id: i32) -> Result<()> {
     let mut conn = obter_conexao()?;
 
     conn.exec_drop(

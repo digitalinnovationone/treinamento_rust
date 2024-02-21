@@ -6,7 +6,7 @@ use serde_json;
 
 const CLIENTES_JSON: &str = "db/clientes.json";
 
-pub fn criar_cliente(nome: &str, telefone: &str) -> std::io::Result<()> {
+pub fn criar(nome: &str, telefone: &str) -> std::io::Result<()> {
     let mut arquivo_leitura = File::open(CLIENTES_JSON).unwrap_or_else(|_| File::create(CLIENTES_JSON).unwrap());
     let mut dados = String::new();
     arquivo_leitura.read_to_string(&mut dados)?;
@@ -32,7 +32,7 @@ pub fn criar_cliente(nome: &str, telefone: &str) -> std::io::Result<()> {
     Ok(())
 }
 
-pub fn listar_clientes() -> std::io::Result<Vec<Cliente>> {
+pub fn listar() -> std::io::Result<Vec<Cliente>> {
     let mut arquivo = File::open(CLIENTES_JSON)?;
     
     let mut dados = String::new();
@@ -42,7 +42,7 @@ pub fn listar_clientes() -> std::io::Result<Vec<Cliente>> {
     Ok(clientes)
 }
 
-pub fn atualizar_cliente(id: Uuid, novo_nome: &str, novo_telefone: &str) -> std::io::Result<()> {
+pub fn atualizar(id: Uuid, novo_nome: &str, novo_telefone: &str) -> std::io::Result<()> {
     let mut arquivo = OpenOptions::new().read(true).write(true).open(CLIENTES_JSON)?;
 
     let mut dados = String::new();
@@ -65,7 +65,7 @@ pub fn atualizar_cliente(id: Uuid, novo_nome: &str, novo_telefone: &str) -> std:
     Ok(())
 }
 
-pub fn excluir_cliente(id: Uuid) -> std::io::Result<()> {
+pub fn excluir(id: Uuid) -> std::io::Result<()> {
     let mut arquivo = OpenOptions::new().read(true).write(true).open(CLIENTES_JSON)?;
 
     let mut dados = String::new();
