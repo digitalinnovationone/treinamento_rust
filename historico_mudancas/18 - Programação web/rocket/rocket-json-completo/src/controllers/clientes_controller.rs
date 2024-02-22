@@ -1,7 +1,9 @@
 use rocket::serde::json::Json;
 use rocket::response::status::{Custom, NotFound};
 use rocket::http::Status;
+use rocket::response::status;
 
+use crate::models;
 use crate::models::cliente::Cliente;
 use crate::servicos::cliente_servico;
 
@@ -47,8 +49,9 @@ pub fn index() -> Json<Vec<Cliente>> {
     Json(clientes)
 }
 
+
 #[post("/clientes", data = "<cliente_data>")]
-pub async fn create(cliente_data: Json<NovoClienteJson>) -> Result<Json<String>, Custom<String>> {
+pub async fn create(cliente_data: Json<NovoClienteJson>) -> Result<status::Custom<Json<Cliente>>, Custom<String>> {
     let cliente = cliente_data.into_inner();
     
     println!("{}", cliente.nome);
@@ -56,7 +59,13 @@ pub async fn create(cliente_data: Json<NovoClienteJson>) -> Result<Json<String>,
 
     processar_novo_cliente(&cliente)?;
 
-    Ok(Json("Cliente cadastrado com sucesso".to_string()))
+    let cliente_db = models::cliente::Cliente{
+        id: 0,
+        nome: cliente.nome,
+        cpf: cliente.cpf
+    };
+
+    Ok(status::Custom(Status::Created, Json(cliente_db)))
 }
 
 
@@ -85,8 +94,7 @@ pub async fn update(id: u32, cliente_data: Json<NovoClienteJson>) -> Result<Json
 
 // Endpoint para excluir um cliente
 #[delete("/clientes/<id>")]
-pub fn delete(id: u32) -> Result<Json<String>, Custom<String>> {
+pub fn delete(id: u32) -> Result<status::NoContent, status::Custom<String>> {
     excluir_cliente(id)?;
-
-    Ok(Json("Cliente excluído com sucesso".to_string()))
+    Ok(status::NoContent)
 }
