@@ -1,11 +1,17 @@
 use actix_web::{web, HttpResponse, Responder};
-use crate::models::{Message, Cliente};
+use crate::models::{Message, Cliente, Login, TokenApi};
+use crate::middleware::AuthMiddleware;
+use crate::jwt::{create_token, Claims};
+use crate::config;
+use std::time::{SystemTime, UNIX_EPOCH};
 
 pub fn config_app(cfg: &mut web::ServiceConfig) {
     cfg
         .route("/", web::get().to(index))
+        .route("/logar", web::post().to(logar))
         .service(
             web::scope("/clientes")
+                .wrap(AuthMiddleware)
                 .route("", web::get().to(listar_clientes))
                 .route("", web::post().to(criar_cliente))
                 .route("/{id}", web::get().to(buscar_cliente))
@@ -16,6 +22,40 @@ pub fn config_app(cfg: &mut web::ServiceConfig) {
 
 async fn index() -> impl Responder {
     HttpResponse::Ok().json(Message { mensagem: "Olá! Bem-vindo à API de clientes.".to_string() })
+}
+
+async fn logar(login_json: web::Json<Login>) -> impl Responder {
+    let login = login_json.into_inner();
+    
+    if login.email == "danilo@teste.com" && login.senha == "123456" {
+        // Substitua "admin_id" pelo ID real do administrador
+        let admin_id = "admin_id"; 
+        let expiration = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("Time went backwards")
+            .as_secs() + 60 * 60; // Token expira em 1 hora
+
+        let claims = Claims {
+            sub: admin_id.to_string(),
+            exp: expiration as usize,
+        };
+
+        let config = config::load_config().expect("Failed to load configuration.");
+        let jwt_secret = config.jwt.secret.clone();
+
+        match create_token(claims, &jwt_secret) {
+            Ok(token) => return HttpResponse::Ok().json(TokenApi { 
+                token: token 
+            }),
+            Err(_) => return HttpResponse::BadRequest().json(Message { 
+                mensagem: "Erro ao gerar token".to_string() 
+            }),
+        }
+    }
+
+    HttpResponse::BadRequest().json(Message { 
+        mensagem: "Email ou senha inválidos".to_string() 
+    })
 }
 
 async fn listar_clientes() -> impl Responder {

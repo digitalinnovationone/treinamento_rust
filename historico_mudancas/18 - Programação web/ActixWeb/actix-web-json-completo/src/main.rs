@@ -1,4 +1,7 @@
 use actix_web::{HttpServer, App};
+
+mod jwt;
+mod middleware;
 mod handlers;
 mod models;
 mod config;

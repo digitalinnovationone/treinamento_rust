@@ -1,3 +1,6 @@
 [server]
 host = "127.0.0.1"
 port = 8080
+
+[jwt]
+secret = "sua_chave_secreta_super_secreta"
