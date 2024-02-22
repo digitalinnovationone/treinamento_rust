@@ -1,14 +1,18 @@
+use actix_web::{web, App, HttpServer, Responder};
 
-// https://docs.google.com/presentation/d/1sVCh5_5vMPs0ZjHKyDLyv_ZWGos4eXY07mVJ6slW1tg/edit#slide=id.g1f205c34dc6_0_0
-
-#[macro_use] extern crate rocket;
-
-#[get("/")]
-fn index() -> &'static str {
+async fn index() -> impl Responder {
     "Hello, world!"
 }
 
-#[launch]
-fn rocket() -> _ {
-    rocket::build().mount("/", routes![index])
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    println!("=== Servidor rodando em http://127.0.0.1:8080 ===");
+
+    HttpServer::new(|| {
+        App::new().route("/", web::get().to(index))
+    })
+    .bind("127.0.0.1:8080")?
+    .run()
+    .await
+
 }
