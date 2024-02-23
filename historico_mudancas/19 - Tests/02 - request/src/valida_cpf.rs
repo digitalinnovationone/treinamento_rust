@@ -24,6 +24,8 @@ pub fn valida_cpf(cpf: &str) -> bool {
     primeiro_digito == cpf_numeros[9] && segundo_digito == cpf_numeros[10]
 }
 
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -66,17 +68,5 @@ mod tests {
         // Assert
         assert!(resultado_valido, "O CPF deveria ser considerado válido");
         assert!(!resultado_invalido, "O CPF deveria ser considerado inválido");
-    }
-
-
-
-
-    //// ===== Outros TODO buscar mais ========
-
-    #[test]
-    fn testa_retorno_funcao() {
-        let valor_esperado = 42; 
-        let resultado = 42;
-        assert_eq!(resultado, valor_esperado, "A função não retornou o valor esperado!");
     }
 }
