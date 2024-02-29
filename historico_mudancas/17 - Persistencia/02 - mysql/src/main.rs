@@ -43,3 +43,36 @@ fn main() {
         }
     }
 }
+
+
+
+
+
+// mod config; 
+// mod models; 
+// use models::cliente::Cliente;
+// use mysql::prelude::Queryable;
+
+// fn main() -> Result<(), mysql::Error> {
+//     let mut cnn = config::cnn::obter_conexao()?;
+
+//     let clientes: Vec<Cliente> = cnn.query_map(
+//         "SELECT id, nome, telefone FROM clientes",
+//         |(id, nome, telefone)| {
+//             Cliente { id: id, nome, telefone }
+//         },
+//     )?;
+
+
+//     for cliente in clientes {
+//         println!("----------------------------------"); // Risco na tela
+//         println!("ID: {}", cliente.id);
+//         println!("Nome: {}", cliente.nome);
+//         println!("Telefone: {}", cliente.telefone);
+//     }
+//     println!("----------------------------------"); // Risco após o último cliente
+
+
+//     Ok(())
+// }
+

@@ -4,7 +4,7 @@ USE clientes_rust_db;
 
 CREATE TABLE IF NOT EXISTS clientes (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(255),
+    nome VARCHAR(150),
     telefone VARCHAR(20)
 );
 

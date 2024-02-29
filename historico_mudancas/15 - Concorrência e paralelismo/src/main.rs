@@ -4,6 +4,18 @@
 // use std::time::Duration;
 
 // fn main() {
+
+//     // for i in 1..=5 {
+//     //     println!("{}", i);
+//     //     thread::sleep(Duration::from_millis(500));
+//     // }
+
+//     // for letter in 'a'..='e' {
+//     //     println!("{}", letter);
+//     //     thread::sleep(Duration::from_millis(200));
+//     // }
+
+
 //     // Thread para imprimir números
 //     let num_thread = thread::spawn(|| {
 //         for i in 1..=5 {
@@ -51,6 +63,7 @@
 //         // Note que `msg` não pode mais ser usado aqui, pois `send` toma a propriedade da mensagem
 //     });
 
+
 //     // Recebe a mensagem na thread principal
 //     let received = rx.recv().unwrap(); // espera até a thread ser resolvida
 //     println!("Mensagem recebida: {}", received);
@@ -83,8 +96,8 @@
 //     let (tx_produtos, rx_produtos) = mpsc::channel();
 
 //     // Thread para criar clientes
-//     let tx_clientes_clone = tx_clientes.clone();
 //     let cliente_thread = thread::spawn(move || {
+//         // trazendo do banco de dados simulação
 //         let clientes = vec![
 //             Cliente { id: 1, nome: "Cliente 1".into() },
 //             Cliente { id: 2, nome: "Cliente 2".into() },
@@ -92,13 +105,14 @@
 
 //         for cliente in clientes {
 //             println!("Enviando cliente {} ...", cliente.nome);
-//             tx_clientes_clone.send(cliente).unwrap();
+//             tx_clientes.send(cliente).unwrap();
 //             thread::sleep(Duration::from_millis(100));
 //         }
 //     });
 
 //     // Thread para criar produtos
 //     let produto_thread = thread::spawn(move || {
+//         // Simulação de ler produtos do banco de dados
 //         let produtos = vec![
 //             Produto { id: 1, nome: "Produto 1".into() },
 //             Produto { id: 2, nome: "Produto 2".into() },
@@ -140,7 +154,7 @@
 
 //// ==== Concorrência Segura (Ownership e Borrowing) =======
 
-//// ==== Ilegal =======
+// // ==== Ilegal =======
 // use std::thread;
 // use std::time::Duration;
 
@@ -161,7 +175,7 @@
 
 
 
-//// ==== legal =======
+// ==== legal =======
 
 // use std::sync::{Arc, Mutex};
 // use std::thread;
@@ -201,18 +215,18 @@
 
 
 //// ===== Paralelismo ==========
-/// === Rayon para Paralelismo de Dados ===
+//// === Rayon para Paralelismo de Dados ===
 // use rayon::prelude::*;
 
 // fn main() {
 //     let nums = vec![1, 2, 3, 4, 5];
     
 //     // Paralelizando a operação de mapeamento com Rayon
-//     let squares: Vec<_> = nums.par_iter() // Use `par_iter` para iterar em paralelo
+//     let array_mais_um: Vec<_> = nums.par_iter() // Use `par_iter` para iterar em paralelo
 //                                .map(|&num| num + 1)
 //                                .collect();
 
-//     println!("Soma mais 1: {:?}", squares);
+//     println!("Soma mais 1: {:?}", array_mais_um);
 // }
 
 
@@ -232,11 +246,11 @@
 //     let nums = vec![1, 2, 3, 4, 5];
     
 //     // Paralelizando a operação de mapeamento com Rayon
-//     let squares: Vec<_> = nums.par_iter() // Use `par_iter` para iterar em paralelo
+//     let mais_um: Vec<_> = nums.par_iter() // Use `par_iter` para iterar em paralelo
 //                                .map(|&num| num + 1)
 //                                .collect();
 
-//     println!("Soma mais 1: {:?}", squares);
+//     println!("Soma mais 1: {:?}", mais_um);
 // }
 
 
@@ -398,7 +412,7 @@ como servidores web e clientes, bancos de dados e serviços de rede.
 */
 
 ///// ==== Exemplo blocante =======
-// use std::net::{TcpListener};
+// use std::net::TcpListener;
 // use std::io::{self, Read, Write};
 
 // fn main() -> io::Result<()> {
@@ -447,50 +461,50 @@ como servidores web e clientes, bancos de dados e serviços de rede.
 // testar = curl localhost:8080 # trava pois o telnet bloqueou
 
 ///// ==== Exemplo não blocante =======
-// use tokio::net::TcpListener;
-// use tokio::io::{self, AsyncReadExt, AsyncWriteExt};
+use tokio::net::TcpListener;
+use tokio::io::{self, AsyncReadExt, AsyncWriteExt};
 
-// #[tokio::main]
-// async fn main() -> io::Result<()> {
-//     // Cria um ouvinte TCP que escuta na porta 8080 do localhost
-//     let listener = TcpListener::bind("127.0.0.1:8080").await?;
+#[tokio::main]
+async fn main() -> io::Result<()> {
+    // Cria um ouvinte TCP que escuta na porta 8080 do localhost
+    let listener = TcpListener::bind("127.0.0.1:8080").await?;
 
-//     println!("Servidor rodando em 127.0.0.1:8080");
+    println!("Servidor rodando em 127.0.0.1:8080");
 
-//     loop {
-//         // Aceita uma conexão
-//         let (mut socket, _) = listener.accept().await?;
+    loop {
+        // Aceita uma conexão
+        let (mut socket, _) = listener.accept().await?;
 
-//         println!("Cliente conectado");
+        println!("Cliente conectado");
 
-//         // Usa `tokio::spawn` para lidar com a conexão em uma nova tarefa assíncrona
-//         tokio::spawn(async move {
-//             let mut buf = vec![0; 1024]; // Buffer para armazenar os dados recebidos
+        // Usa `tokio::spawn` para lidar com a conexão em uma nova tarefa assíncrona
+        tokio::spawn(async move {
+            let mut buf = vec![0; 1024]; // Buffer para armazenar os dados recebidos
 
-//             // Loop para ler dados do socket e escrever de volta (ecoar)
-//             loop {
-//                 match socket.read(&mut buf).await {
-//                     // Se a leitura for bem-sucedida e alguns bytes forem recebidos
-//                     Ok(n) if n == 0 => {
-//                         println!("Conexão encerrada pelo cliente");
-//                         return;
-//                     },
-//                     Ok(n) => {
-//                         // Escreve os dados de volta para o socket (ecoar)
-//                         if socket.write_all(&buf[..n]).await.is_err() {
-//                             println!("Erro ao enviar dados de volta");
-//                             return;
-//                         }
-//                     },
-//                     Err(e) => {
-//                         println!("Erro ao ler do socket: {:?}", e);
-//                         return;
-//                     }
-//                 }
-//             }
-//         });
-//     }
-// }
+            // Loop para ler dados do socket e escrever de volta (ecoar)
+            loop {
+                match socket.read(&mut buf).await {
+                    // Se a leitura for bem-sucedida e alguns bytes forem recebidos
+                    Ok(n) if n == 0 => {
+                        println!("Conexão encerrada pelo cliente");
+                        return;
+                    },
+                    Ok(n) => {
+                        // Escreve os dados de volta para o socket (ecoar)
+                        if socket.write_all(&buf[..n]).await.is_err() {
+                            println!("Erro ao enviar dados de volta");
+                            return;
+                        }
+                    },
+                    Err(e) => {
+                        println!("Erro ao ler do socket: {:?}", e);
+                        return;
+                    }
+                }
+            }
+        });
+    }
+}
 ///// ===== Exemplo de http não blocante ======
 // testar = curl localhost:8080 # Acessa e libera
 // testando = telnet localhost 8080 # bloqueia a requisição

@@ -4,6 +4,7 @@ pub mod traits;
 macro_rules! create_struct_and_metadata {
     ($table_name:expr => $struct_name:ident { $($field_name:ident: $field_type:ty, $metadata:expr),* $(,)? }) => {
         
+        #[derive(Debug)]
         pub struct $struct_name {
             $(pub $field_name: $field_type,)*
         }
@@ -31,7 +32,7 @@ macro_rules! create_struct_and_metadata {
             fn to_params(&self) -> std::collections::HashMap<String, String> {
                 let mut params = std::collections::HashMap::new();
                 $(
-                    params.insert(stringify!($field_name).to_string(), format!("{:?}", self.$field_name));
+                    params.insert(stringify!($field_name).to_string(), self.$field_name.to_string());
                 )*
                 params
             }

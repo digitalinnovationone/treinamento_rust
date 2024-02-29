@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "historico_mudancas", "historico_mudancas", "{97924C65-9EF6-44D5-9E63-6FD7C837256C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "10 - lifetimes", "10 - lifetimes", "{63D76690-9888-4723-AFBB-A2BC43BA6950}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "csharp", "historico_mudancas\10 - lifetimes\csharp\csharp.csproj", "{125A6572-BF53-42EA-9016-50C04281AA90}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{125A6572-BF53-42EA-9016-50C04281AA90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{125A6572-BF53-42EA-9016-50C04281AA90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{125A6572-BF53-42EA-9016-50C04281AA90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{125A6572-BF53-42EA-9016-50C04281AA90}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{63D76690-9888-4723-AFBB-A2BC43BA6950} = {97924C65-9EF6-44D5-9E63-6FD7C837256C}
+		{125A6572-BF53-42EA-9016-50C04281AA90} = {63D76690-9888-4723-AFBB-A2BC43BA6950}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E203DC37-A585-4BA6-8BFA-405D7B679C3C}
+	EndGlobalSection
+EndGlobal

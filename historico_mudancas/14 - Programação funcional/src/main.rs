@@ -1,31 +1,36 @@
-struct Pedido {
-    nome_cliente: String,
-    valor: f32,
-    entregue: bool,
-}
+// struct Pedido {
+//     nome_cliente: String,
+//     valor: f32,
+//     entregue: bool,
+// }
 
 
-// === Abordagem Imperativa =======
-fn main() {
-    let pedidos = vec![
-        Pedido { nome_cliente: String::from("Alice"), valor: 150.0, entregue: true },
-        Pedido { nome_cliente: String::from("Bob"), valor: 250.0, entregue: false },
-        Pedido { nome_cliente: String::from("Carol"), valor: 100.0, entregue: true },
-    ];
+// // === Abordagem Imperativa =======
+// fn main() {
+//     let pedidos = vec![
+//         Pedido { nome_cliente: String::from("Alice"), valor: 150.0, entregue: true },
+//         Pedido { nome_cliente: String::from("Bob"), valor: 250.0, entregue: false },
+//         Pedido { nome_cliente: String::from("Carol"), valor: 100.0, entregue: true },
+//     ];
 
-    let mut valor_total = 0.0; // pode ter problemas em concorrencia variavel depenendo da condição
+//     let mut valor_total = 0.0; // pode ter problemas em concorrencia variavel depenendo da condição
 
-    for pedido in pedidos {
-        if pedido.entregue {
-            valor_total += pedido.valor;
-        }
-    }
+//     for pedido in pedidos {
+//         if pedido.entregue {
+//             valor_total += pedido.valor;
+//         }
+//     }
 
-    println!("O valor total dos pedidos entregues é: {:.2}", valor_total);
-}
+//     println!("O valor total dos pedidos entregues é: {:.2}", valor_total);
+// }
 
 
-//// === Abordagem funcional =======
+
+// fn pedido_entregue(pedido: &Pedido) -> bool {
+//     pedido.entregue
+// }
+
+// //// === Abordagem funcional =======
 // fn main() {
 //     let pedidos = vec![
 //         Pedido { nome_cliente: String::from("Alice"), valor: 150.0, entregue: true },
@@ -36,13 +41,12 @@ fn main() {
 //     //// === Conceito de função que retorna função ===
 //     // iter() - Cria um iterador sobre a coleção.
 //     // filter(|pedido| pedido.entregue) - Filtra os clientes entregues
-//     // filter(|pedido| pedido.entregue) - Filtra os clientes entregues
 //     // map(|pedido| pedido.valor) - mapeia os itens retornando um array de f32
 //     // sum() - Soma os dados retornados pelo array
 
 
 //     let valor_total: f32 = pedidos.iter()
-//                                    .filter(|pedido| pedido.entregue)
+//                                    .filter(|&pedido| pedido_entregue(pedido))
 //                                    .map(|pedido| pedido.valor)
 //                                    .sum();
 
@@ -55,15 +59,20 @@ fn main() {
 /*
 Closures são funções anônimas que podem capturar variáveis do escopo onde foram definidas 
 para uso posterior. 
+
 Elas são bastante úteis para tarefas como passagem de comportamento como argumento para outras funções,
 construção de abstrações de controle e manipulação de dados de coleções.
 
 Características das Closures
 Anônimas: Closures geralmente não têm um nome.
-Capturam o ambiente: Podem capturar variáveis do contexto onde são definidas, seja por valor ou por referência.
+
+Capturam o ambiente: Podem capturar variáveis do contexto onde são definidas, 
+seja por valor ou por referência.
+
 Flexíveis: Podem ser armazenadas em variáveis, passadas como argumentos para outras funções, e mais.
-Tipagem forte: Assim como outras funções em Rust, as closures são fortemente tipadas, mas o compilador de Rust 
-muitas vezes pode inferir seus tipos automaticamente.
+
+Tipagem forte: Assim como outras funções em Rust, as closures são fortemente tipadas, 
+mas o compilador de Rust muitas vezes pode inferir seus tipos automaticamente.
 
 */
 
@@ -89,7 +98,7 @@ muitas vezes pode inferir seus tipos automaticamente.
 
 
 
-//// === Abordagem funcional =======
+// //// === Função de Alta Ordem & Closure =======
 // fn soma(x: i32, y: i32) -> impl Fn(i32) -> i32 {
 //     let r = x + y;
 //     move |multiplicador| r * multiplicador // closure
@@ -99,8 +108,7 @@ muitas vezes pode inferir seus tipos automaticamente.
 //     let resultado_soma = soma(5, 3); // 5 + 3 = 8
 //     let resultado_final = resultado_soma(2); // 8 * 2 = 16
 
-//     println!("Resultado da multiplicação: {}", resultado_soma); // 8 * 2 = 16
-//     println!("Resultado da multiplicação: {}", rresultado_final); // 8 * 2 = 16
+//     println!("Resultado da multiplicação: {}", resultado_final); // 8 * 2 = 16
 // }
 
 
@@ -119,7 +127,7 @@ Box<dyn Fn> é a opção apropriada.
 
 */
 // fn soma(x: i32, y: i32) -> impl Fn(i32) -> Box<dyn Fn(i32) -> i32> {
-//     let r = x + y;
+//     let r: i32 = x + y;
 //     move |multiplicador| {
 //         let r_mult = r * multiplicador;
 //         Box::new(move |sub| r_mult - sub)
@@ -149,9 +157,9 @@ Box<dyn Fn> é a opção apropriada.
 // fn main() {
 //     let somador_10 = cria_somador(10);
 //     println!("10 + 5 = {}", somador_10(5));
-
-//     let somador_20 = cria_somador(20);
-//     println!("20 + 10 = {}", somador_20(10));
+//     println!("10 + 10 = {}", somador_10(10));
+//     println!("10 + 30 = {}", somador_10(30));
+//     println!("10 + 20 = {}", somador_10(20));
 // }
 
 
@@ -272,14 +280,15 @@ Box<dyn Fn> é a opção apropriada.
 
 //     // Função de alta ordem que aplica descontos ao salário
 //     fn aplicar_descontos(salario: f64, descontos: Vec<fn(f64) -> f64>) -> f64 {
-//         descontos.iter().fold(salario, |acc, desconto| desconto(acc))
+//         let total_descontos = descontos.iter().fold(0.0, |valor_param, funcao_closure| valor_param + funcao_closure(salario));
+//         salario - total_descontos
 //     }
 
 //     // Cálculo do salário líquido usando a função de alta ordem
 //     let salario_liquido = aplicar_descontos(salario_bruto, vec![
-//         |salario: f64| salario * 0.90, // Desconto do plano de saúde: 10%
-//         |salario: f64| salario * 0.95, // Desconto do plano dentário: 5%
-//         |salario: f64| salario * 0.97, // Desconto de vale-refeição: 3%
+//         |salario: f64| salario * 0.10, // Desconto do plano de saúde: 10%
+//         |salario: f64| salario * 0.05, // Desconto do plano dentário: 5%
+//         |salario: f64| salario * 0.03, // Desconto de vale-refeição: 3%
 //     ]);
 
 //     println!("Salário líquido: {:.2}", salario_liquido);
@@ -304,7 +313,8 @@ Box<dyn Fn> é a opção apropriada.
 
 // // Função de alta ordem que aplica descontos ao salário
 // fn aplicar_descontos(salario: f64, descontos: Vec<fn(f64) -> f64>) -> f64 {
-//     descontos.iter().fold(salario, |acc, desconto| acc - desconto(acc))
+//     let total_descontos = descontos.iter().fold(0.0, |valor_param, funcao_closure| valor_param + funcao_closure(salario));
+//     salario - total_descontos
 // }
 
 // fn main() {
@@ -328,33 +338,35 @@ Box<dyn Fn> é a opção apropriada.
 //// === Abordagem com struct (Com abordagem em Orientação a Objetos, pois usa conceito de mutabilidade) =======
 
 // struct CalculadoraSalario {
-//     salario_liquido: f64,
+//     salario_bruto: f64,
+//     total_descontos: f64,
 // }
 
 // impl CalculadoraSalario {
 //     fn new(salario_bruto: f64) -> Self {
 //         CalculadoraSalario {
-//             salario_liquido: salario_bruto,
+//             salario_bruto: salario_bruto,
+//             total_descontos: 0.0,
 //         }
 //     }
 
 //     fn desconto_plano_saude(mut self) -> Self {
-//         self.salario_liquido *= 0.90; // Desconto de 10%
+//         self.total_descontos += self.salario_bruto * 0.10; // Desconto de 10%
 //         self
 //     }
 
 //     fn desconto_plano_dentario(mut self) -> Self {
-//         self.salario_liquido *= 0.95; // Desconto de 5%
+//         self.total_descontos += self.salario_bruto * 0.05; // Desconto de 5%
 //         self
 //     }
 
 //     fn desconto_vale_refeicao(mut self) -> Self {
-//         self.salario_liquido *= 0.97; // Desconto de 3%
+//         self.total_descontos += self.salario_bruto * 0.03; // Desconto de 3%
 //         self
 //     }
 
 //     fn valor(self) -> f64 {
-//         self.salario_liquido
+//         self.salario_bruto - self.total_descontos
 //     }
 // }
 
@@ -390,7 +402,7 @@ Box<dyn Fn> é a opção apropriada.
 // }
 
 
-//// === Exemplo imperativa =======
+// //// === Exemplo imperativa =======
 // fn soma_loop(n: i32) -> i32 {
 //     let mut soma = 0;
 //     for i in 1..=n {
@@ -403,6 +415,45 @@ Box<dyn Fn> é a opção apropriada.
 //     let n = 5;
 //     println!("A soma com loop dos números até {} é: {}", n, soma_loop(n));
 // }
+
+
+
+
+
+
+
+
+
+
+// -------------------Pattern Matching-------------------------
+enum Semafaro {
+    Verde,
+    Amarelo,
+    Vermelho,
+}
+
+fn acao(semafaro: Semafaro) {
+    match semafaro {
+        Semafaro::Verde => println!("Siga"),
+        Semafaro::Amarelo => println!("Atenção"),
+        Semafaro::Vermelho => println!("Pare"),
+    }
+}
+
+fn main() {
+    acao(Semafaro::Verde);
+    acao(Semafaro::Amarelo);
+    acao(Semafaro::Vermelho);
+}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -425,49 +476,6 @@ Box<dyn Fn> é a opção apropriada.
 - **Closures:** Funções que podem capturar e utilizar variáveis do escopo onde foram criadas.
 - **Estruturas de Dados Imutáveis:** Preferir o uso de estruturas de dados que não podem ser alteradas após sua criação.
 - **Pattern Matching:** Uma forma de verificar e destrinchar valores de acordo com um padrão. É particularmente útil para trabalhar com tipos algébricos de dados, como enums em Rust.
-
--------------------Pattern Matching-------------------------
-enum Semafaro {
-    Verde,
-    Amarelo,
-    Vermelho,
-}
-
-fn acao(semafaro: Semafaro) {
-    match semafaro {
-        Semafaro::Verde => println!("Siga"),
-        Semafaro::Amarelo => println!("Atenção"),
-        Semafaro::Vermelho => println!("Pare"),
-    }
-}
-
-fn main() {
-    let semafaro = Semafaro::Verde;
-    acao(semafaro);
-
-    let semafaro = Semafaro::Amarelo;
-    acao(semafaro);
-
-    let semafaro = Semafaro::Vermelho;
-    acao(semafaro);
-}
---------------------------------------------
-struct Ponto {
-    x: i32,
-    y: i32,
-}
-
-fn main() {
-    let ponto = Ponto { x: 0, y: 0 };
-
-    // Usando `if let` para desestruturar e verificar o valor de `x`
-    if let Ponto { x: 0, y } = ponto {
-        println!("Ponto está na origem do eixo Y, com y = {}", y);
-    } else {
-        println!("Ponto não está na origem");
-    }
-}
---------------------------------------------
 
 
 ### 3. **Praticar Técnicas Comuns da Programação Funcional**
