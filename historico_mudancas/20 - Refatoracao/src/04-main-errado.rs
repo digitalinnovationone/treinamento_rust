@@ -1,7 +1,7 @@
 fn exemplo_loop() {
     let vetor = vec![1, 2, 3];
-    for valor in &vetor {
-        println!("{}", valor);
+    for i in 0..vetor.len() {
+        println!("{}", vetor[i]);
     }
 }
 
