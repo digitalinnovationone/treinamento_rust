@@ -1,10 +1,11 @@
-use actix_web::{HttpServer, App};
+use actix_web::{App, HttpServer};
 
-mod jwt;
-mod middleware;
-mod handlers;
-mod models;
 mod config;
+mod models;
+mod handlers;
+mod services;
+mod middleware;
+mod jwt;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -12,11 +13,11 @@ async fn main() -> std::io::Result<()> {
     let server_cfg = cfg.server;
     let address = format!("{}:{}", server_cfg.host, server_cfg.port);
 
-    println!("Starting server at http://{}", address);
+    println!("Iniciando o servidor em http://{}", address);
 
-    HttpServer::new(move || {
-        App::new()
-            .configure(handlers::config_app)
+    HttpServer::new(|| {
+        App::new().configure(config::routes)
+
     })
     .bind(&address)?
     .run()

@@ -1,30 +1,17 @@
 use actix_web::{web, HttpResponse, Responder};
-use crate::models::{Message, Cliente, Login, TokenApi};
-use crate::middleware::AuthMiddleware;
-use crate::jwt::{create_token, Claims};
+use crate::models::{Cliente, Message, Login, TokenApi};
+use crate::jwt::{Claims, create_token};
+use crate::services;
 use crate::config;
 use std::time::{SystemTime, UNIX_EPOCH};
 
-pub fn config_app(cfg: &mut web::ServiceConfig) {
-    cfg
-        .route("/", web::get().to(index))
-        .route("/logar", web::post().to(logar))
-        .service(
-            web::scope("/clientes")
-                .wrap(AuthMiddleware)
-                .route("", web::get().to(listar_clientes))
-                .route("", web::post().to(criar_cliente))
-                .route("/{id}", web::get().to(buscar_cliente))
-                .route("/{id}", web::put().to(atualizar_cliente))
-                .route("/{id}", web::delete().to(deletar_cliente))
-        );
+pub async fn home() ->impl Responder {
+    HttpResponse::Ok().json(Message { mensagem: "Olá API".to_string() })
 }
 
-async fn index() -> impl Responder {
-    HttpResponse::Ok().json(Message { mensagem: "Olá! Bem-vindo à API de clientes.".to_string() })
-}
 
-async fn logar(login_json: web::Json<Login>) -> impl Responder {
+
+pub async fn logar(login_json: web::Json<Login>) -> impl Responder {
     let login = login_json.into_inner();
     
     if login.email == "danilo@teste.com" && login.senha == "123456" {
@@ -58,69 +45,51 @@ async fn logar(login_json: web::Json<Login>) -> impl Responder {
     })
 }
 
-async fn listar_clientes() -> impl Responder {
-    let clientes = obter_lista_clientes();
+
+
+
+pub async fn listar_clientes() ->impl Responder {
+    let clientes = services::obter_lista_clientes();
     HttpResponse::Ok().json(clientes)
 }
 
-async fn criar_cliente(cliente: web::Json<Cliente>) -> impl Responder {
-    let mut clientes = obter_lista_clientes();
+pub async fn criar_clientes(cliente: web::Json<Cliente>) ->impl Responder {
+    let mut clientes = services::obter_lista_clientes();
     let cli = cliente.into_inner();
     clientes.push(cli.clone());
 
     HttpResponse::Created().json(cli)
 }
 
-async fn buscar_cliente(path: web::Path<(String,)>) -> impl Responder {
-    let id = &path.0;
-    if let Some(cliente) = obter_lista_clientes().iter().find(|c| c.id.to_string() == *id) {
+pub async fn buscar_cliente(path: web::Path<(String,)>) -> impl Responder {
+    let clientes = services::obter_lista_clientes();
+    if let Some(cliente) = clientes.iter().find(|c| c.id.to_string() == path.0) {
         HttpResponse::Ok().json(cliente)
     } else {
-        HttpResponse::NotFound().finish()
+        HttpResponse::NotFound().json(Message { mensagem: "Cliente não encontrado".to_string() })
     }
 }
 
-async fn atualizar_cliente(path: web::Path<(String,)>, cliente: web::Json<Cliente>) -> impl Responder {
-    let mut clientes = obter_lista_clientes();
+pub async fn atualizar_clientes(path: web::Path<(String,)>, cliente: web::Json<Cliente>) ->impl Responder {
+    let mut clientes = services::obter_lista_clientes();
     let id = &path.0;
     if let Some(c) = clientes.iter_mut().find(|c| c.id.to_string() == *id) {
-        let new_client = cliente.into_inner();
-        c.nome = new_client.nome;
-        c.cpf = new_client.cpf;
+        c.nome = cliente.nome.clone();
+        c.cpf = cliente.cpf.clone();
         HttpResponse::Ok().json(c)
     } else {
         HttpResponse::NotFound().finish()
     }
 }
 
-async fn deletar_cliente(path: web::Path<(String,)>) -> impl Responder {
-    let mut clientes = obter_lista_clientes();
+pub async fn apagar_clientes(path: web::Path<(String,)>) ->impl Responder {
+    let mut clientes = services::obter_lista_clientes();
     let id = &path.0;
 
     if let Some(index) = clientes.iter().position(|c| c.id.to_string() == *id) {
         clientes.remove(index);
         HttpResponse::NoContent().finish()
     } else {
-        HttpResponse::NotFound().finish()
+        HttpResponse::NotFound().json(Message { mensagem: "Cliente não encontrado".to_string() })
     }
-}
-
-fn obter_lista_clientes() -> Vec<Cliente> {
-    let cliente1 = Cliente {
-        id: 1,
-        nome: String::from("Cliente 1"),
-        cpf: String::from("111.111.111-11"),
-    };
-    
-    let cliente2 = Cliente {
-        id: 2,
-        nome: String::from("Cliente 2"),
-        cpf: String::from("222.222.222-22"),
-    };
-    
-    let mut lista_clientes = Vec::new();
-    lista_clientes.push(cliente1);
-    lista_clientes.push(cliente2);
-    
-    lista_clientes
 }
