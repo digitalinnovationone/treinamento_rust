@@ -2,27 +2,21 @@
 
 use rocket::serde::json::Json;
 
-mod valida_cpf;
+mod validar_cnpj;
 mod models;
-mod divide_zero;
 
 #[get("/")]
 fn index() -> Json<models::HomeResponse> {
-    Json(models::HomeResponse { mensagem: "Api valida CPF - /valida_cpf?cpf=123567".to_string() })
+    Json(models::HomeResponse { mensagem: "Api para validar CNPJ - /validar_cnpj?cnpj=123567".to_string() })
 }
 
-#[get("/valida_cpf?<cpf>")]
-fn valida_cpf_endpoint(cpf: &str) -> Json<models::ApiResponse> {
-    let valido = valida_cpf::valida_cpf(&cpf);
+#[get("/validar_cnpj?<cnpj>")]
+fn valida_cnpj_endpoint(cnpj: &str) -> Json<models::ApiResponse> {
+    let valido = validar_cnpj::validar(&cnpj);
     Json(models::ApiResponse { valido })
 }
 
 #[launch]
 fn rocket() -> _ {
-    match divide_zero::divide(6, 3) {
-        Ok(x) => println!("Resultado da divisão: {}", x),
-        Err(err) => println!("Erro: {}", err), // Não é necessário chamar .Error() em uma String
-    }
-    
-    rocket::build().mount("/", routes![index, valida_cpf_endpoint])
+    rocket::build().mount("/", routes![index, valida_cnpj_endpoint])
 }

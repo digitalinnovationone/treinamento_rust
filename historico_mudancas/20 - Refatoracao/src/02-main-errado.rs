@@ -1,5 +1,5 @@
 fn exemplo_clone(x: i32) {
-    let y = x; // Não é necessário usar clone para tipos Copy
+    let y = x.clone();
     println!("x: {}, y: {}", x, y);
 }
 

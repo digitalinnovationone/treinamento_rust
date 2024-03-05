@@ -1,17 +1,18 @@
-mod valida_cpf;
+mod validar_cnpj;
+mod validar_cpf;
+mod divide_zero;
 
 use std::io;
-use valida_cpf::valida_cpf;
 
 fn main() {
-    println!("Digite o CPF para validação:");
-    let mut cpf = String::new();
-    io::stdin().read_line(&mut cpf).expect("Falha ao ler entrada");
-    let cpf = cpf.trim(); // Remove espaços em branco e nova linha
+    println!("Digite o CNPJ para validação:");
+    let mut cnpj = String::new();
+    io::stdin().read_line(&mut cnpj).expect("Falha ao ler entrada");
+    let cnpj = cnpj.trim(); // Remove espaços em branco e nova linha
 
-    if valida_cpf(cpf) {
-        println!("CPF válido.");
+    if validar_cnpj::validar(cnpj) {
+        println!("O CNPJ é valido")
     } else {
-        println!("CPF inválido.");
+        println!("O CNPJ é invalido")
     }
 }

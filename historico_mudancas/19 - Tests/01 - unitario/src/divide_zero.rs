@@ -1,5 +1,3 @@
-
-
 pub fn divide(numerator: i32, denominator: i32) -> Result<i32, String> {
     if denominator == 0 {
         Err(String::from("Erro: Divisão por zero."))
@@ -22,7 +20,7 @@ mod tests {
 
 
     #[test]
-    #[ignore = "motivo para ignorar"]
+    #[ignore = "Exemplo de como ignorar um test"]
     fn teste_ignorado() {
         println!("....")
     }

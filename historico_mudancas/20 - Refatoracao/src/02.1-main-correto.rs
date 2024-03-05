@@ -1,5 +1,5 @@
 fn exemplo_clone(x: i32) {
-    let y = x.clone();
+    let y = x;
     println!("x: {}, y: {}", x, y);
 }
 
