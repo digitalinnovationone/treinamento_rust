@@ -1,0 +1,6 @@
+CREATE TABLE administradores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(150) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    senha VARCHAR(100) NOT NULL
+);
