@@ -1,0 +1,17 @@
+[package]
+name = "actix_web_simples"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+futures = "0.3"
+actix-web = "4.5.1"
+config = "0.11"
+serde = { version = "1.0", features = ["derive"] }
+jsonwebtoken = "7.2.0"
+bcrypt = "0.8.2"
+actix-service = "2.0"
+model_macro = { path = "./model_macro" }
+dotenv = "0.15.0"
+mysql = "24.0.0" 
+actix-cors = "0.6.0"
