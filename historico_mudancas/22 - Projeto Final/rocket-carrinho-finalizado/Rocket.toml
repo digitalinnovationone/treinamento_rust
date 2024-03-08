@@ -1,0 +1,12 @@
+[global]
+profile = "debug"
+address = "127.0.0.1"
+port = 8080
+workers = 1
+secret_key = "KpIZ6U8s16XjqWabR35LkFbeQUcPcZvJyJVcHhv+1ZM="
+
+[debug]
+# Configurações específicas para o perfil de debug
+
+[release]
+# Configurações específicas para o perfil de release

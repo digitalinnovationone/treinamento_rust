@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Sistema{% endblock title %}</title>
+        {% include "partials/_head" %}
+    </head>
+    <body>
+        {% include "partials/_header" %}
+        <main style="margin-top: 80px;">
+            {% block content %}{% endblock content %}
+        </main>
+        {% include "partials/_footer" %}
+    </body>
+</html>

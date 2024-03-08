@@ -1,0 +1,31 @@
+{% extends "layouts/application" %}
+
+{% block title %}
+  Página de Compras
+{% endblock title %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h1>Produtos</h1>
+    <hr />
+    <a href="/carrinho/{{ cliente_id }}" class="btn btn-primary"> Ver Carrinho </a>
+    <hr />
+    <div class="row">
+      {% for produto in produtos %}
+        <div class="col-md-3 mb-4">
+          <div class="card">
+            <div class="crop-image">
+              <img src="{{ produto.imagem }}" class="card-img-top" alt="{{ produto.nome }}">
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{ produto.nome }}</h5>
+              <p class="card-text">{{ produto.descricao }}</p>
+              <p class="text-muted">Preço: R${{ produto.preco }}</p>
+              <a href="/adicionar_ao_pedido/{{ cliente_id }}/{{ produto.id }}" class="btn btn-primary">Adicionar ao Pedido</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock content %}

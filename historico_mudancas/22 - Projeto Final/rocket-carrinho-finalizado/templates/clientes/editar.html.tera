@@ -1,0 +1,28 @@
+{% extends "layouts/application" %}
+
+{% block title %}
+  Tabela de Clientes
+{% endblock title %}
+
+{% block content %}
+  <!-- https://chat.openai.com/share/228c901f-71c6-43aa-8367-fc202bdf6262 = Como gerei o html -->
+  <div class="container mt-5">
+    <h1>Novo Cliente</h1>
+    <form action="/clientes/{{ cliente.id }}/alterar" method="post">
+      <div class="form-group">
+        <label for="nome">Nome:</label>
+        <input type="text" class="form-control" value="{{ cliente.nome }}" id="nome" name="nome" placeholder="Digite o nome do cliente" required>
+      </div>
+      <div class="form-group">
+        <label for="telefone">Telefone:</label>
+        <input type="text" class="form-control" value="{{ cliente.telefone }}" id="telefone" name="telefone" placeholder="Digite o Telefone do cliente" required>
+      </div>
+      {% if erro != "" %}
+        <div class="alert alert-danger" role="alert">
+            {{ erro }}
+        </div>
+      {% endif %}
+      <button type="submit" class="btn btn-primary">Salvar</button>
+    </form>
+  </div>
+{% endblock content %}

@@ -1,0 +1,12 @@
+{% extends "layouts/application" %}
+
+{% block title %}
+  Home page
+{% endblock title %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h1>Carrinho de compras em Rust</h1>
+    <a href="/clientes" class="btn btn-success">Vamos comprar :)</a>
+  </div>
+{% endblock content %}

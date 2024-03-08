@@ -1,0 +1,54 @@
+{% extends "layouts/application" %}
+
+{% block title %}
+  Carrinho
+{% endblock title %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h1>Carrinho</h1>
+    <div class="pedido-info">
+      <p><strong>ID do Pedido:</strong> {{ pedido.id }}</p>
+      <p><strong>Data:</strong> {{ pedido.data | date(format="%d/%m/%Y %H:%M") }}</p>
+      <p><strong>Cliente:</strong> {{ pedido.cliente.nome }}</p>
+      <p><strong>Total:</strong> R$ {{ pedido.valor_total }}</p>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Produto</th>
+          <th>Descrição</th>
+          <th>Preço</th>
+          <th>Quantidade</th>
+          <th>Subtotal</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for produto in pedido.produtos %}
+          <tr>
+            <td>{{ produto.nome }}</td>
+            <td>{{ produto.descricao }}</td>
+            <td>R$ {{ produto.preco }}</td>
+            <td>{{ produto.quantidade }}</td>
+            <td>R$ {{ produto.preco * produto.quantidade }}</td>
+            <td>
+              <form action="/pedidos/excluir-item/{{ pedido.cliente.id }}/{{ pedido.id }}/{{ produto.id }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este item?');">
+                <button type="submit" class="btn btn-danger">Excluir</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% if pedido.produtos | length == 0 %}
+      <p>O carrinho está vazio.</p>
+    {% endif %}
+
+
+    <hr />
+    <a href="/comprar/{{ cliente_id }}" class="btn btn-success"> Comprar mais </a>
+  </div>
+{% endblock content %}
