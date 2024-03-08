@@ -1,0 +1,44 @@
+<div class="container mt-3">
+  <button class="btn btn-success mb-3" (click)="mostrarNovoFormulario()">Novo</button>
+
+  <div *ngIf="mostrarFormulario">
+    <form (ngSubmit)="salvarRecurso()">
+      <div class="mb-3">
+        <label for="titulo" class="form-label">Título</label>
+        <input type="text" class="form-control" id="titulo" [(ngModel)]="recursoAtual.titulo" name="titulo" required>
+      </div>
+      <div class="mb-3">
+        <label for="descricao" class="form-label">Descrição</label>
+        <input type="text" class="form-control" id="descricao" [(ngModel)]="recursoAtual.descricao" name="descricao">
+      </div>
+      <button type="submit" class="btn btn-primary">Salvar</button>
+    </form>
+  </div>
+
+  <div *ngIf="!mostrarFormulario">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Título</th>
+          <th>Descrição</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let recurso of recursos">
+          <td>{{ recurso.id }}</td>
+          <td>{{ recurso.titulo }}</td>
+          <td>{{ recurso.descricao }}</td>
+          <td>
+            <button class="btn btn-primary" (click)="editarRecurso(recurso)">Alterar</button>
+            <button class="btn btn-danger" (click)="excluirRecurso(recurso.id)">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<br />
+<button class="btn btn-danger" (click)="sair()">Sair</button>

@@ -1,0 +1,7 @@
+button{
+    margin-right: 10px;
+}
+
+table tr td:last-child{
+    width: 190px;
+}

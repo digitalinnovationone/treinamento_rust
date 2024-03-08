@@ -1,0 +1,30 @@
+.login-container{
+    text-align: center;
+    margin-top: 50px;
+}
+
+.login-container form{
+   display: inline-block;
+   text-align: left;
+}
+
+.login-container input{
+    max-width: 300px;
+    margin-bottom: 10px;
+}
+
+form.cliente input{
+    margin-bottom: 10px;
+}
+
+form.cliente button{
+    margin-right: 10px;
+}
+
+.table-actions{
+    width: 190px;
+}
+
+.table-actions button{
+    margin-left: 10px;
+}
